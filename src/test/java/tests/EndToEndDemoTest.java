@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import org.testng.annotations.Test;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
-
+import utils.ConfigReader;
 import base.TestBase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
@@ -30,30 +30,34 @@ public class EndToEndDemoTest extends TestBase {
     @Severity(SeverityLevel.CRITICAL)
     @Story("UI Automation Demo")
     public void fullE2ETest() {
+
+        String username = ConfigReader.get("username");
+        String password = ConfigReader.get("password");
+        String baseUrl  = ConfigReader.get("url");
         // Login
         login.openLoginPage();
-        login.login("tomsmith", "SuperSecretPassword!");
+        login.login(username, password);
         login.verifyLoginSuccess();
 
         // Dropdown
-        open("https://the-internet.herokuapp.com/");
+        open(baseUrl);
         dropdown.openDropdownPage();
         dropdown.selectOption("Option 2");
         dropdown.verifySelected("Option 2");
 
         // Drag & Drop
-        open("https://the-internet.herokuapp.com/");
+        open(baseUrl);
         actions.openDragDropPage();
         actions.dragAndDropExample();
 
         // Frames
-        open("https://the-internet.herokuapp.com/");
+        open(baseUrl);
         frames.openFramePage();
         frames.typeInFrame("Hello Frame!");
         frames.verifyText();
 
         // Windows
-        open("https://the-internet.herokuapp.com/");
+        open(baseUrl);
         windows.openNewWindowPage();
         windows.switchToNewWindow();
         windows.verifyNewWindow();
